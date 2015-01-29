@@ -48,19 +48,31 @@ void *get_last_element(LinkedList list){
 }
 
 void traverse(LinkedList list, void (*fun)(void *data)){
-	while(list.head != NULL){
-		fun((*list.head).data);
-		list.head = (*list.head).next;
-	}
+	node_ptr walker;
+	for (walker = list.head; walker !=NULL; walker = (*walker).next)
+		fun((*walker).data);
 }
 
 void *getElementAt(LinkedList list, int index){
-	int idx = -1;
-	while(list.head != NULL){
-		idx += 1;
+	int idx = 0;  node_ptr walker;
+	for(walker = list.head; walker !=NULL; walker = (*walker).next){
 		if(idx == index)
-			return (*list.head).data;
-		list.head = (*list.head).next;
+			return (*walker).data;
+		idx += 1;
 	}
 	return NULL;
+}
+
+int indexOf(LinkedList list, void *item){
+	int idx = 0;  node_ptr walker;
+	for(walker = list.head; walker !=NULL; walker = (*walker).next){
+		if(memcmp((*walker).data, item, sizeof(item))==0)
+			return idx;
+		idx++;
+	}
+	return -1;	
+}
+
+void *deleteElementAt(LinkedList *list, int index){
+ return NULL;
 }

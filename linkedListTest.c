@@ -54,9 +54,30 @@ void test_create_node_creates_a_node_with_string_data_and_next_pointing_to_NULL(
 }
 
 
-int areEqual(Node au1, Node au2){
-	return (memcmp(au1.data, au2.data, sizeof(au1.data))==0) ? 1 : 0;
+int areEqual(Node n1, Node n2){
+	return (memcmp(n1.data, n2.data, sizeof(n1.data))==0) ? 1 : 0;
 }
+
+void test_areEqual_return_0_when_two_Nodes_are_not_equal(){
+	string a = "hiii", b="byee", *result;
+	LinkedList list = createList();
+	Node *node1, *node2;
+	node1 = create_node(&a);
+	node2 = create_node(&b);
+	assertEqual(areEqual(*node1, *node2), 0);\
+	free(node1); free(node2);
+}
+
+void test_areEqual_return_1_when_two_Nodes_are_equal(){
+	string a = "hiii", b="hiii", *result;
+	LinkedList list = createList();
+	Node *node1, *node2;
+	node1 = create_node(&a);
+	node2 = create_node(&b);
+	assertEqual(areEqual(*node1, *node2), 1);
+	free(node1); free(node2);
+}
+
 
 void test_add_to_list_adds_given_node_to_its_head_and_tail_when_list_is_empty(){
 	string f = "vikas";
@@ -96,7 +117,7 @@ void test_add_to_list_adds_given_node_makes_it_tail_when_list_is_not_empty_and_r
 	assertEqual(areEqual(*(list.tail), *node2), 1);
 	assert((*list.tail).next == NULL);
 	assert((*node2).next == NULL);
-	free(node1);  free(node2); 
+	free(node1); free(node2); 
 }
 
 void test_add_to_list_adds_node_to_linked_list_and_add_resets_head_tail_and_count_for_int_node() {
@@ -117,7 +138,7 @@ void test_add_to_list_adds_node_to_linked_list_and_add_resets_head_tail_and_coun
 	assertEqual((int)node,(int)list.head);
 	assertEqual((int)node2,(int)list.tail);
 	assertEqual((int)((Node*)list.tail)->next,0);
-	free(node);  free(node2); 
+	free(node); free(node2); 
 }
 
 void test_get_first_element_gives_NULL_when_the_Linked_List_is_empty(){
@@ -141,6 +162,7 @@ void test_get_first_element_gives_first_element_from_the_Linked_List(){
 	assert(*(string*)get_first_element(list) == "vikas");
 	assert(areEqual(*(list.head), *node1) == 1);
 	assert((int)(list.head) == (int)node1);
+	free(node1); free(node2);
 }
 
 void test_get_last_element_gives_last_element_from_the_Linked_List(){
@@ -153,6 +175,7 @@ void test_get_last_element_gives_last_element_from_the_Linked_List(){
 	
 	assert(*(string*)get_last_element(list) == "vikky");
 	assert(areEqual(*(list.tail), *node2) == 1);
+	free(node1); free(node2);
 }
 
 
@@ -170,6 +193,7 @@ void test_create_node_001() {
 	Node *intNode = create_node(&c);
 	assertEqual(*(int *)((*intNode).data),9);
 	assert((*intNode).next == 0);
+	free(intNode);
 }
 
 void test_create_node_002() {
@@ -178,6 +202,7 @@ void test_create_node_002() {
 	Node *intNode = create_node(&c);
 	assertEqual(*(char *)((*intNode).data),'A');
 	assert((*intNode).next == 0);
+	free(intNode);
 }
 
 void test_create_node_003() {
@@ -186,6 +211,7 @@ void test_create_node_003() {
 	Node *intNode = create_node(&c);
 	assert(*(string*)((*intNode).data) == "Prasenjit");
 	assert((*intNode).next == 0);
+	free(intNode);
 }
 
 void test_create_node_004() {
@@ -194,6 +220,7 @@ void test_create_node_004() {
 	Node *intNode = create_node(&c);
 	assertEqual(*(float *)((*intNode).data), (float)19.2);
 	assert((*intNode).next == 0);
+	free(intNode);
 }
 
 void test_create_node_005() {
@@ -202,6 +229,7 @@ void test_create_node_005() {
 	Node *intNode = create_node(&c);
 	assert(*(double *)((*intNode).data) == 19.2);
 	assert((*intNode).next == 0);
+	free(intNode);
 }
 
 void test_create_node_006() {
@@ -210,6 +238,7 @@ void test_create_node_006() {
 	Node *intNode = create_node(&c);
 	assert(*(long int *)((*intNode).data) == 2147483647);
 	assert((*intNode).next == 0);
+	free(intNode);
 }
 
 void test_create_node_007() {
@@ -218,6 +247,7 @@ void test_create_node_007() {
 	Node *intNode = create_node(&c);
 	assert(*(signed char *)((*intNode).data) == 127);
 	assert((*intNode).next == 0);
+	free(intNode);
 }
 
 void test_create_node_008() {
@@ -226,6 +256,7 @@ void test_create_node_008() {
 	Node *intNode = create_node(&c);
 	assert(*(unsigned char *)((*intNode).data) == 255);
 	assert((*intNode).next == 0);
+	free(intNode);
 }
 
 void test_add_to_list_001() {
@@ -235,6 +266,7 @@ void test_add_to_list_001() {
 	Node *intNode = create_node(&c);
 	add_to_list(&list,intNode);
 	assert(*(int *)(*(list.head)).data == 9);
+	free(intNode);
 }
 
 void test_add_to_list_002() {
@@ -246,6 +278,7 @@ void test_add_to_list_002() {
 	add_to_list(&list,node2);
 	assert(*(int *)(*(list.head)).data == 9);
 	assert(*(int *)(*(list.tail)).data == 10);
+	free(node1); free(node2); 
 }
 
 void test_add_to_list_003() {
@@ -255,6 +288,7 @@ void test_add_to_list_003() {
 	Node *charNode = create_node(&c);
 	add_to_list(&list,charNode);
 	assert(*(char *)(*(list.head)).data == 'A');
+	free(charNode);
 }
 
 void test_add_to_list_004() {
@@ -266,6 +300,7 @@ void test_add_to_list_004() {
 	add_to_list(&list,node2);
 	assert(*(char *)(*(list.head)).data == 'A');
 	assert(*(char *)(*(list.tail)).data == 'B');
+	free(node1); free(node2); 
 }
 
 void test_add_to_list_005() {
@@ -276,6 +311,7 @@ void test_add_to_list_005() {
 	add_to_list(&list,charNode);
 	assert(*(string *)(*(list.head)).data == "Prasenjit");
 	assert(*(string *)(*(list.tail)).data == "Prasenjit");
+	free(charNode);
 }
 
 void test_add_to_list_006() {
@@ -285,8 +321,9 @@ void test_add_to_list_006() {
 	Node *node1 = create_node(&c),*node2 = create_node(&d);
 	add_to_list(&list,node1);
 	add_to_list(&list,node2);
-	assert(*(string *)(*(list.head)).data == "Prasenjit");
-	assert(*(string *)(*(list.tail)).data == "Chakraborty"); /*Checkpoint*/
+	assert(*(string *)(*list.head).data == "Prasenjit");
+	assert(*(string *)(*list.tail).data == "Chakraborty");
+	free(node1); free(node2); 
 }
 
 void test_add_to_list_007() {
@@ -297,6 +334,7 @@ void test_add_to_list_007() {
 	add_to_list(&list,charNode);
 	assert(*(float *)(*(list.head)).data == (float)72.3);
 	assert(*(float *)(*(list.tail)).data == (float)72.3);
+	free(charNode);
 }
 
 void test_add_to_list_008() {
@@ -308,6 +346,7 @@ void test_add_to_list_008() {
 	add_to_list(&list,node2);
 	assert(*(float *)(*(list.head)).data == (float)72.3);
 	assertEqual(*(float *)(*(list.tail)).data, (float)65.3);
+	free(node1); free(node2); 
 }
 
 void test_add_to_list_009() {
@@ -318,6 +357,7 @@ void test_add_to_list_009() {
 	add_to_list(&list,charNode);
 	assert(*(long int *)(*(list.head)).data == 2147483647);
 	assert(*(long int *)(*(list.tail)).data == 2147483647);
+	free(charNode);
 }
 
 void test_add_to_list_010() {
@@ -339,6 +379,7 @@ void test_add_to_list_0011() {
 	add_to_list(&list,charNode);
 	assert(*(double *)(*(list.head)).data == 21.1);
 	assert(*(double *)(*(list.tail)).data == 21.1);
+	free(charNode);
 }
 
 void test_add_to_list_012() {
@@ -350,6 +391,7 @@ void test_add_to_list_012() {
 	add_to_list(&list,node2);
 	assert(*(double *)(*(list.head)).data == 21.1);
 	assert(*(double *)(*(list.tail)).data == 21.2);
+	free(node1); free(node2); 
 }
 
 void test_get_first_element_001() {
@@ -360,6 +402,7 @@ void test_get_first_element_001() {
 	add_to_list(&list,intNode);
 	res = get_first_element(list);
 	assert(*res == 9);
+	free(intNode);
 }
 
 void test_get_last_element_001() {
@@ -370,14 +413,18 @@ void test_get_last_element_001() {
 	add_to_list(&list,intNode);
 	res = get_last_element(list);
 	assertEqual(*res, 9);
+	free(intNode);
 }
 
 void add(void* data) {
 	*(int*)data += 1;
 }
+void subtract(void* data) {
+	*(float*)data -= 1;
+}
 
-void test_traverse_001() {
-	log("traverse through a int node and increases each element by one");
+
+void test_traverse_traverse_through_a_int_node_and_increases_each_element_by_one(){
 	int a = 9, b=10;
 	LinkedList list = createList();
 	Node *node1 = create_node(&a);
@@ -389,6 +436,58 @@ void test_traverse_001() {
 	
 	assert(*(int*)(*(list.head)).data == 10);
 	assert(*(int*)(*(list.tail)).data == 11);
+	free(node1); free(node2); 
+}
+
+void test_traverse_traverse_through_a_float_node_and_increases_each_element_by_one(){
+	float a = 9.4, b=10.5;
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	
+	traverse(list,subtract);
+	
+	assert(*(float*)(*(list.head)).data == (float)8.4);
+	assert(*(float*)(*(list.tail)).data == 9.5);
+	free(node1); free(node2); 
+}
+
+void increment(void *item){
+	*(double*)item += 1;
+}
+void test_traverse_traverse_through_a_double_node_and_increases_each_element_by_one(){
+	double a = 9.4, b=10.5;
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	
+	traverse(list,increment);
+	
+	assert(*(double*)(*(list.head)).data == 10.4);
+	assert(*(double*)(*(list.tail)).data == 11.5);
+	free(node1); free(node2); 
+}
+
+void toUpper(void *item){
+	*(char*)item = *(char*)item - 32;
+}
+void test_traverse_traverse_through_a_char_node_and_increases_each_element_by_one(){
+	char a = 'a', b='b';
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	
+	traverse(list, toUpper);
+	
+	assert(*(char*)(*(list.head)).data == 'A');
+	assert(*(char*)(*(list.tail)).data == 'B');
+	free(node1); free(node2); 
 }
 
 void test_getElementAt_returns_element_at_given_index_for_int_Node(){
@@ -404,6 +503,7 @@ void test_getElementAt_returns_element_at_given_index_for_int_Node(){
 
 	result = getElementAt(list, 1);
 	assertEqual(*(int*)result, 10);
+	free(node1); free(node2); free(node3);
 }
 
 void test_getElementAt_returns_NULL_when_negative_index_is_given_for_int_Node(){
@@ -416,6 +516,7 @@ void test_getElementAt_returns_NULL_when_negative_index_is_given_for_int_Node(){
 
 	result = (int*)getElementAt(list, -9);
 	assert(result == NULL);
+	free(node1); free(node2); 
 }
 
 void test_getElementAt_returns_NULL_when_index_is_greater_then_no_of_nodes_for_int_Node(){
@@ -428,6 +529,7 @@ void test_getElementAt_returns_NULL_when_index_is_greater_then_no_of_nodes_for_i
 
 	result = (int*)getElementAt(list, 23);
 	assert(result == NULL);
+	free(node1); free(node2); 
 }
 
 void test_getElementAt_returns_element_at_given_index_for_float_Node(){
@@ -443,6 +545,7 @@ void test_getElementAt_returns_element_at_given_index_for_float_Node(){
 
 	result = getElementAt(list, 1);
 	assertEqual(*result, (float)10.4);
+	free(node1); free(node2); free(node3);
 }
 
 void test_getElementAt_returns_NULL_when_negative_index_is_given_for_float_Node(){
@@ -455,6 +558,7 @@ void test_getElementAt_returns_NULL_when_negative_index_is_given_for_float_Node(
 
 	result = getElementAt(list, -9);
 	assert(result == NULL);
+	free(node1); free(node2); 
 }
 
 void test_getElementAt_returns_NULL_when_index_is_greater_then_no_of_nodes_for_float_Node(){
@@ -467,6 +571,7 @@ void test_getElementAt_returns_NULL_when_index_is_greater_then_no_of_nodes_for_f
 
 	result = getElementAt(list, 23);
 	assert(result == NULL);
+	free(node1); free(node2); 
 }
 
 void test_getElementAt_returns_element_at_given_index_for_double_Node(){
@@ -482,6 +587,7 @@ void test_getElementAt_returns_element_at_given_index_for_double_Node(){
 
 	result = getElementAt(list, 1);
 	assertEqual(*(double*)result, (double)10.4);
+	free(node1); free(node2); free(node3);
 }
 
 void test_getElementAt_returns_NULL_when_negative_index_is_given_for_double_Node(){
@@ -494,6 +600,7 @@ void test_getElementAt_returns_NULL_when_negative_index_is_given_for_double_Node
 
 	result = getElementAt(list, -9);
 	assert(result == NULL);
+	free(node1); free(node2); 
 }
 
 void test_getElementAt_returns_NULL_when_index_is_greater_then_no_of_nodes_for_double_Node(){
@@ -506,6 +613,7 @@ void test_getElementAt_returns_NULL_when_index_is_greater_then_no_of_nodes_for_d
 
 	result = getElementAt(list, 23);
 	assert(result == NULL);
+	free(node1); free(node2); 
 }
 
 void test_getElementAt_returns_element_at_given_index_for_char_Node(){
@@ -521,6 +629,7 @@ void test_getElementAt_returns_element_at_given_index_for_char_Node(){
 
 	result = getElementAt(list, 1);
 	assertEqual(*result, 'b');
+	free(node1); free(node2); free(node3);
 }
 
 void test_getElementAt_returns_NULL_when_negative_index_is_given_for_char_Node(){
@@ -533,6 +642,7 @@ void test_getElementAt_returns_NULL_when_negative_index_is_given_for_char_Node()
 
 	result = getElementAt(list, -9);
 	assert(result == NULL);
+	free(node1); free(node2); 
 }
 
 void test_getElementAt_returns_NULL_when_index_is_greater_then_no_of_nodes_for_char_Node(){
@@ -545,6 +655,7 @@ void test_getElementAt_returns_NULL_when_index_is_greater_then_no_of_nodes_for_c
 
 	result = getElementAt(list, 23);
 	assert(result == NULL);
+	free(node1); free(node2); 
 }
 
 void test_getElementAt_returns_element_at_given_index_for_string_Node(){
@@ -560,6 +671,7 @@ void test_getElementAt_returns_element_at_given_index_for_string_Node(){
 
 	result = getElementAt(list, 1);
 	assert(*result == "byee");
+	free(node1); free(node2); free(node3);
 }
 
 void test_getElementAt_returns_NULL_when_negative_index_is_given_for_string_Node(){
@@ -572,6 +684,7 @@ void test_getElementAt_returns_NULL_when_negative_index_is_given_for_string_Node
 
 	result = getElementAt(list, -9);
 	assert(result == NULL);
+	free(node1); free(node2); 
 }
 
 void test_getElementAt_returns_NULL_when_index_is_greater_then_no_of_nodes_for_string_Node(){
@@ -584,4 +697,149 @@ void test_getElementAt_returns_NULL_when_index_is_greater_then_no_of_nodes_for_s
 
 	result = getElementAt(list, 23);
 	assert(result == NULL);
+	free(node1); free(node2); 
 }
+
+void test_indexOf_returns_the_first_index_of_given_string_data_reference_(){
+	string a = "hiii", b="byee", c="go to hell !", *result;
+	LinkedList list = createList();
+	Node *node1 = create_node(&b);
+	Node *node2 = create_node(&b);
+	Node *node3 = create_node(&b);
+
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	add_to_list(&list,node3);
+
+	assert(indexOf(list, &a) == -1);
+	assert(indexOf(list, &b) == 0);
+	assert(indexOf(list, &c) == -1);
+	free(node1); free(node2); free(node3);
+}
+
+void test_indexOf_returns_minus_1_of_when_given_string_is_not_in_the_list(){
+	string a = "hiii", b="byee", c="viias";
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+
+	assert(indexOf(list, &c) == -1);
+	free(node1); free(node2); 
+}
+
+
+void test_indexOf_returns_the_first_index_of_given_int_data_reference(){
+	int a = 12, b = 34, c = 4;
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	Node *node3 = create_node(&c);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	add_to_list(&list,node3);
+
+	assert(indexOf(list, &a) == 0);
+	assert(indexOf(list, &c) == 2);
+	assert(indexOf(list, &b) == 1);
+	free(node1); free(node2); free(node3);
+}
+
+void test_indexOf_returns_minus_1_of_when_given_integer_is_not_in_the_list(){
+	int a = 12, b = 34, c = 4;
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+
+	assert(indexOf(list, &c) == -1);
+	free(node1); free(node2); 
+}
+
+void test_indexOf_returns_the_first_index_of_given_float_data_reference(){
+	float a = 12.4, b = 3.4, c = 4.8;
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	Node *node3 = create_node(&c);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	add_to_list(&list,node3);
+
+	assert(indexOf(list, &a) == 0);
+	assert(indexOf(list, &c) == 2);
+	assert(indexOf(list, &b) == 1);
+	free(node1); free(node2); free(node3);
+}
+
+void test_indexOf_returns_minus_1_of_when_given_floating_value_is_not_in_the_list(){
+	float a = 12.2, b = 3.4, c = 4.6;
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+
+	assert(indexOf(list, &c) == -1);
+	free(node1); free(node2); 
+}
+
+
+void test_indexOf_returns_the_first_index_of_given_character_data_reference(){
+	char a = 'v', b = 'i', c = 'k';
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	Node *node3 = create_node(&c);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	add_to_list(&list,node3);
+
+	assert(indexOf(list, &a) == 0);
+	assert(indexOf(list, &c) == 2);
+	assert(indexOf(list, &b) == 1);
+	free(node1); free(node2); free(node3);
+}
+
+void test_indexOf_returns_minus_1_of_when_given_charing_value_is_not_in_the_list(){
+	char a = 'v', b = 'i';
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	add_to_list(&list,node1);
+
+	assert(indexOf(list, &b) == -1);
+	free(node1); 
+}
+
+
+// void test_indexOf_returns_the_index_of_given_double_data_reference(){
+// 	double a = 12.4, b = 3.4, c = 4.8;
+// 	LinkedList list = createList();
+// 	Node *node1 = create_node(&a);
+// 	Node *node2 = create_node(&b);
+// 	Node *node3 = create_node(&c);
+// 	add_to_list(&list,node1);
+// 	add_to_list(&list,node2);
+// 	add_to_list(&list,node3);
+
+// 	printf(" %f\n", *(double*)getElementAt(list, 2));
+// 	assertEqual(indexOf(list, &a), 0);
+// 	assertEqual(indexOf(list, &b), 1);
+// 	assertEqual(indexOf(list, &c), -1);
+// 	free(node1); free(node2); free(node3);
+// }
+
+// void test_indexOf_returns_minus_1_of_when_given_double_value_is_not_in_the_list(){
+// 	double a = 12.2, b = 3.4, c = 14.6;
+// 	LinkedList list = createList();
+// 	Node *node1 = create_node(&a);
+// 	Node *node2 = create_node(&b);
+// 	add_to_list(&list, node1);
+// 	add_to_list(&list, node2);
+
+// 	printf(" %f\n", *(double*)getElementAt(list, 1));
+// 	assertEqual(indexOf(list, &c), -1);
+// 	free(node1); free(node2); 
+// }
