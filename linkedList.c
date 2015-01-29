@@ -38,9 +38,16 @@ int add_to_list(LinkedList *list, Node *item){
 }
 
 void *get_first_element(LinkedList list){
-	return list.head;
+	return (*(list.head)).data;
 }
 
 void *get_last_element(LinkedList list){
-	return list.tail;
+	return (*(list.tail)).data;
+}
+
+void traverse(LinkedList list, void (*fun)(void *data)){
+	while(list.head != NULL){
+		fun((*list.head).data);
+		list.head = (*list.head).next;
+	}
 }
