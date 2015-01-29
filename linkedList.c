@@ -27,6 +27,8 @@ Node *create_node(void *data){
 }
 
 int add_to_list(LinkedList *list, Node *item){
+	if(item == NULL)
+		return 0;
 	if((*list).head == NULL)
 		(*list).head = item;
 	else
@@ -38,11 +40,11 @@ int add_to_list(LinkedList *list, Node *item){
 }
 
 void *get_first_element(LinkedList list){
-	return (*list.head).data;
+	return (list.head == NULL) ? NULL : (*list.head).data;
 }
 
 void *get_last_element(LinkedList list){
-	return (*list.tail).data;
+	return (list.head == NULL) ? NULL : (*list.tail).data;
 }
 
 void traverse(LinkedList list, void (*fun)(void *data)){
@@ -50,4 +52,8 @@ void traverse(LinkedList list, void (*fun)(void *data)){
 		fun((*list.head).data);
 		list.head = (*list.head).next;
 	}
+}
+
+void *getElementAt(LinkedList list, int index){
+
 }

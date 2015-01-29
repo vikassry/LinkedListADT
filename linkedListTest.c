@@ -62,14 +62,14 @@ void test_add_to_list_adds_given_node_to_its_head_and_tail_when_list_is_empty(){
 	string f = "vikas";
 	node_ptr node = create_node(&f);
 	LinkedList list = createList();
-	add_to_list(&list, node);
+	assert(add_to_list(&list, node) == 1);
 	assertEqual(areEqual(*(list.head), *node), 1);
 	assertEqual(areEqual(*(list.tail), *node), 1);
 	assert((*list.tail).next == NULL);
 	free(node);
 }
 	
-void test_add_to_list_adds_given_node_and_returns_1(){
+void test_add_to_list_adds_given_node_to_tail_when_list_isnt_empty_and_returns_1(){
 	string str1 = "vikas", str2 = "vikky";
 	LinkedList list = createList();
 	node_ptr node1 = create_node(&str1);
@@ -84,15 +84,18 @@ void test_add_to_list_adds_given_node_and_returns_1(){
 	free(node1); free(node2);
 }
 
-void test_add_to_list_adds_given_node_makes_it_tail_when_list_is_not_empty(){
-	int str1 = 12, str2 = 13;
+void test_add_to_list_adds_given_node_makes_it_tail_when_list_is_not_empty_and_returns_1(){
+	int str1 = 12, str2 = 13, result;
 	LinkedList list = createList();
 	node_ptr node1 = create_node(&str1);
 	node_ptr node2 = create_node(&str2);
-	add_to_list(&list, node1);
-	add_to_list(&list, node2);
+	result = add_to_list(&list, node1);
+	result = add_to_list(&list, node2);
+	assert(result == 1);
 	assertEqual(areEqual(*(list.head), *node1), 1);
 	assertEqual(areEqual(*(list.tail), *node2), 1);
+	assert((*list.tail).next == NULL);
+	assert((*node2).next == NULL);
 	free(node1);  free(node2); 
 }
 
@@ -117,15 +120,15 @@ void test_add_to_list_adds_node_to_linked_list_and_add_resets_head_tail_and_coun
 	free(node);  free(node2); 
 }
 
-// void test_get_first_element_gives_NULL_when_the_Linked_List_is_empty(){
-// 	LinkedList list = createList();
-// 	assertEqual(*(int*)get_first_element(list), (int)0);
-// }
+void test_get_first_element_gives_NULL_when_the_Linked_List_is_empty(){
+	LinkedList list = createList();
+	assertEqual((int)get_first_element(list), 0);
+}
 
-// void test_get_last_element_gives_NULL_when_the_Linked_List_is_empty(){
-// 	LinkedList list = createList();
-// 	assertEqual(*(int*)get_last_element(list), (int)0);
-// }
+void test_get_last_element_gives_NULL_when_the_Linked_List_is_empty(){
+	LinkedList list = createList();
+	assertEqual((int)get_last_element(list), 0);
+}
 
 void test_get_first_element_gives_first_element_from_the_Linked_List(){
 	string str1 = "vikas", str2 = "vikky";
@@ -376,10 +379,15 @@ void add(void* data) {
 
 void test_traverse_001() {
 	log("traverse through a int node and increases each element by one");
-	int c = 9;
+	int a = 9, b=10;
 	LinkedList list = createList();
-	Node *intNode = create_node(&c);
-	add_to_list(&list,intNode);
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	
 	traverse(list,add);
 	assert(*(int*)(*(list.head)).data == 10);
+	assert(*(int*)(*(list.tail)).data == 11);
 }
+
