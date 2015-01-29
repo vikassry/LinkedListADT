@@ -814,32 +814,30 @@ void test_indexOf_returns_minus_1_of_when_given_charing_value_is_not_in_the_list
 }
 
 
-// void test_indexOf_returns_the_index_of_given_double_data_reference(){
-// 	double a = 12.4, b = 3.4, c = 4.8;
-// 	LinkedList list = createList();
-// 	Node *node1 = create_node(&a);
-// 	Node *node2 = create_node(&b);
-// 	Node *node3 = create_node(&c);
-// 	add_to_list(&list,node1);
-// 	add_to_list(&list,node2);
-// 	add_to_list(&list,node3);
+void test_indexOf_returns_the_index_of_given_double_data_reference(){
+	double a = 12.4, b = 3.4, c = 4.8;
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	Node *node3 = create_node(&c);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	add_to_list(&list,node3);
 
-// 	printf(" %f\n", *(double*)getElementAt(list, 2));
-// 	assertEqual(indexOf(list, &a), 0);
-// 	assertEqual(indexOf(list, &b), 1);
-// 	assertEqual(indexOf(list, &c), -1);
-// 	free(node1); free(node2); free(node3);
-// }
+	assertEqual(indexOf(list, &a), 0);
+	assertEqual(indexOf(list, &b), 1);
+	assertEqual(indexOf(list, &c), 2);
+	free(node1); free(node2); free(node3);
+}
 
-// void test_indexOf_returns_minus_1_of_when_given_double_value_is_not_in_the_list(){
-// 	double a = 12.2, b = 3.4, c = 14.6;
-// 	LinkedList list = createList();
-// 	Node *node1 = create_node(&a);
-// 	Node *node2 = create_node(&b);
-// 	add_to_list(&list, node1);
-// 	add_to_list(&list, node2);
+void test_indexOf_returns_minus_1_of_when_given_double_value_is_not_in_the_list(){
+	double a = 12.2, b = 3.4, c = 14.6;
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	add_to_list(&list, node1);
+	add_to_list(&list, node2);
 
-// 	printf(" %f\n", *(double*)getElementAt(list, 1));
-// 	assertEqual(indexOf(list, &c), -1);
-// 	free(node1); free(node2); 
-// }
+	assertEqual(indexOf(list, &c), -1);
+	free(node1); free(node2); 
+}

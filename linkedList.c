@@ -66,8 +66,7 @@ void *getElementAt(LinkedList list, int index){
 int indexOf(LinkedList list, void *item){
 	int idx = 0;  node_ptr walker;
 	for(walker = list.head; walker !=NULL; walker = (*walker).next){
-		if(memcmp((*walker).data, item, sizeof(item))==0)
-			return idx;
+		if((*walker).data == item) 	return idx;
 		idx++;
 	}
 	return -1;	
