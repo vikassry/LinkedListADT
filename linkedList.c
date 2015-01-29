@@ -55,5 +55,12 @@ void traverse(LinkedList list, void (*fun)(void *data)){
 }
 
 void *getElementAt(LinkedList list, int index){
-
+	int idx = -1;
+	while(list.head != NULL){
+		idx += 1;
+		if(idx == index)
+			return (*list.head).data;
+		list.head = (*list.head).next;
+	}
+	return NULL;
 }

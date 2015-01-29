@@ -153,7 +153,6 @@ void test_get_last_element_gives_last_element_from_the_Linked_List(){
 	
 	assert(*(string*)get_last_element(list) == "vikky");
 	assert(areEqual(*(list.tail), *node2) == 1);
-	assert((int)(list.tail) == (int)node2);
 }
 
 
@@ -387,7 +386,202 @@ void test_traverse_001() {
 	add_to_list(&list,node2);
 	
 	traverse(list,add);
+	
 	assert(*(int*)(*(list.head)).data == 10);
 	assert(*(int*)(*(list.tail)).data == 11);
 }
 
+void test_getElementAt_returns_element_at_given_index_for_int_Node(){
+	int a = 9, b=10, c=11, *result;
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	Node *node3 = create_node(&c);
+
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	add_to_list(&list,node3);
+
+	result = getElementAt(list, 1);
+	assertEqual(*(int*)result, 10);
+}
+
+void test_getElementAt_returns_NULL_when_negative_index_is_given_for_int_Node(){
+	int a = 9, b=10, *result;
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+
+	result = (int*)getElementAt(list, -9);
+	assert(result == NULL);
+}
+
+void test_getElementAt_returns_NULL_when_index_is_greater_then_no_of_nodes_for_int_Node(){
+	int a = 9, b=10, *result;
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+
+	result = (int*)getElementAt(list, 23);
+	assert(result == NULL);
+}
+
+void test_getElementAt_returns_element_at_given_index_for_float_Node(){
+	float a = 9.3, b=10.4, c=11.6, *result;
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	Node *node3 = create_node(&c);
+
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	add_to_list(&list,node3);
+
+	result = getElementAt(list, 1);
+	assertEqual(*result, (float)10.4);
+}
+
+void test_getElementAt_returns_NULL_when_negative_index_is_given_for_float_Node(){
+	float a = 9, b=10, *result;
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+
+	result = getElementAt(list, -9);
+	assert(result == NULL);
+}
+
+void test_getElementAt_returns_NULL_when_index_is_greater_then_no_of_nodes_for_float_Node(){
+	float a = 9, b=10, *result;
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+
+	result = getElementAt(list, 23);
+	assert(result == NULL);
+}
+
+void test_getElementAt_returns_element_at_given_index_for_double_Node(){
+	double a = 9.3, b=10.4, c=11.6, *result;
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	Node *node3 = create_node(&c);
+
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	add_to_list(&list,node3);
+
+	result = getElementAt(list, 1);
+	assertEqual(*(double*)result, (double)10.4);
+}
+
+void test_getElementAt_returns_NULL_when_negative_index_is_given_for_double_Node(){
+	double a = 9.5, b=10.7, *result;
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+
+	result = getElementAt(list, -9);
+	assert(result == NULL);
+}
+
+void test_getElementAt_returns_NULL_when_index_is_greater_then_no_of_nodes_for_double_Node(){
+	double a = 9.0, b=10.8, *result;
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+
+	result = getElementAt(list, 23);
+	assert(result == NULL);
+}
+
+void test_getElementAt_returns_element_at_given_index_for_char_Node(){
+	char a = 'a', b='b', c='c', *result;
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	Node *node3 = create_node(&c);
+
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	add_to_list(&list,node3);
+
+	result = getElementAt(list, 1);
+	assertEqual(*result, 'b');
+}
+
+void test_getElementAt_returns_NULL_when_negative_index_is_given_for_char_Node(){
+	char a = 'c', b='b', *result;
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+
+	result = getElementAt(list, -9);
+	assert(result == NULL);
+}
+
+void test_getElementAt_returns_NULL_when_index_is_greater_then_no_of_nodes_for_char_Node(){
+	char a = 'c', b='b', *result;
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+
+	result = getElementAt(list, 23);
+	assert(result == NULL);
+}
+
+void test_getElementAt_returns_element_at_given_index_for_string_Node(){
+	string a = "hiii", b="byee", c="go to hell !", *result;
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	Node *node3 = create_node(&c);
+
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	add_to_list(&list,node3);
+
+	result = getElementAt(list, 1);
+	assert(*result == "byee");
+}
+
+void test_getElementAt_returns_NULL_when_negative_index_is_given_for_string_Node(){
+	string a = "hiii", b="byee", c="go to hell !", *result;
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+
+	result = getElementAt(list, -9);
+	assert(result == NULL);
+}
+
+void test_getElementAt_returns_NULL_when_index_is_greater_then_no_of_nodes_for_string_Node(){
+	string a = "hiii", b="byee", c="go to hell !", *result;
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+
+	result = getElementAt(list, 23);
+	assert(result == NULL);
+}
