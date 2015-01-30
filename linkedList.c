@@ -5,13 +5,10 @@
 
 
 void print_list(LinkedList list){
-	node_ptr walker = list.head;
-	int i=0; 
-	while(walker != NULL){
-		printf("Node%d-> %f \n", ++i, *(double*)(*walker).data);
-		walker = walker->next;
-	}
-	printf("Total Nodes: %d\n",list.count);
+	int i=0; node_ptr walker;  
+	for(walker = list.head; walker !=NULL; walker = walker->next)
+		printf("Node%d %d \n",i, *(int*)walker->data ) && i++;
+	printf("Total Elements: %d\n",list.count);
 }
 
 
@@ -27,15 +24,12 @@ Node *create_node(void *data){
 }
 
 int add_to_list(LinkedList *list, Node *item){
-	if(item == NULL)
-		return 0;
+	if(item == NULL) return 0;
 	if((*list).head == NULL)
 		(*list).head = item;
 	else
 		(*(*list).tail).next = item;
 	(*list).tail = item;
-	// printf("~~%p\n",list->tail->next );
-	// list->tail->next = NULL;
 	list->count+=1;
 	return 1;
 }
@@ -73,7 +67,7 @@ int indexOf(LinkedList list, void *item){
 }
 
 void *deleteElementAt(LinkedList *list, int index){
-	int idx = 0;  node_ptr walker; void *item = calloc(1,sizeof((*(*(*list).head).data)));
+	int idx = 0;  node_ptr walker; void *item = calloc(1,sizeof((list->head->data)));
 	if(index == 0){
 		walker = (*list).head;
 		(*list).head = (*walker).next;
@@ -82,10 +76,10 @@ void *deleteElementAt(LinkedList *list, int index){
 	}
 	if(index == (*list).count-1){
 		item = (*(*list).tail).data;
-		for(walker = (*list).head; walker !=NULL; walker = (*walker).next){
+		for(walker = list->head; walker !=NULL; walker = walker->next){
 			if(idx == (*list).count-2){
+				(*walker).next = NULL;
 				(*list).tail = walker;
-				(*(*list).tail).next = NULL;
 				(*list).count -= 1;
 				return item;
 			} idx++;
@@ -97,18 +91,15 @@ void *deleteElementAt(LinkedList *list, int index){
 			(*walker).next = (*(*walker).next).next;
 			(*list).count -= 1;
 			return item;
-		} 
-		idx += 1;
+		} idx += 1;
 	}
  	return NULL;
 }
 
 int asArray(LinkedList list , void **array){
 	int index = 0;  node_ptr walker;
-	for(walker = list.head; walker !=NULL; walker = (*walker).next){
-		array[index] = (*walker).data;
-		index += 1;
-	}
+	for(walker = list.head; walker !=NULL; walker = (*walker).next)
+		(array[index] = (*walker).data) && (index += 1);
 	return index;
 }
 
@@ -121,3 +112,6 @@ LinkedList *filter(LinkedList list, int_void predicate){
 		(predicate(walker->data)) && add_to_list(new_list, walker);
 	return new_list;
 }
+
+	// printf("~~%p\n",list->tail->next );
+	// list->tail->next = NULL;
