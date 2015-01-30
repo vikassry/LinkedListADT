@@ -103,13 +103,14 @@ void *deleteElementAt(LinkedList *list, int index){
 }
 
 int asArray(LinkedList list , void **array){
-	// char **arr = (char**)array;
 	int index = 0;  node_ptr walker;
 	for(walker = list.head; walker !=NULL; walker = (*walker).next){
-		// ((char*)*array)[index] = (char*)((*walker).data);
 		array[index] = (*walker).data;
 		index += 1;
 	}
-	// *array == (void**)arr;
 	return index;
+}
+
+LinkedList * filter(LinkedList list, int_void predicate){
+	return NULL;
 }

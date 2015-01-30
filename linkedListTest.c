@@ -1033,3 +1033,83 @@ void test_asArray_does_not_populates_float_Array_and_returns_0_when_list_is_empt
 	free(array);
 }
 
+void test_asArray_populates_int_Array_with_char_Nodes_data_and_returns_number_of_elements_added_to_the_array(){
+	char a = 'x', b = 'y';
+	char **array = (char**)calloc(2,sizeof(char*));
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+
+	assert(asArray(list, (void**)array) == 2);
+	assert(array[0] == &a);
+	assert(array[1] == &b);
+
+	assert(*(char*)(array[0]) == 'x');
+	assert(*(char*)(array[1]) == 'y');
+	free(array);
+}
+
+void test_asArray_does_not_populates_char_Array_and_returns_0_when_list_is_empty(){
+	char **array = (char**)malloc(sizeof(char*));
+	LinkedList list = createList();
+
+	assert(asArray(list, (void**)array) == 0);
+	free(array);
+}
+
+void test_asArray_populates_int_Array_with_double_Nodes_data_and_returns_number_of_elements_added_to_the_array(){
+	double a = 4.5, b = 5.25, c = 6.5;
+	double **array = (double**)malloc(sizeof(double*)*4);
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	Node *node3 = create_node(&c);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	add_to_list(&list,node3);
+
+	assert(asArray(list, (void**)array) == 3);
+	assert(array[0] == &a);
+	assert(array[1] == &b);
+	assert(array[2] == &c);
+
+	assert(*(double*)(array[0]) == 4.5);
+	assert(*(double*)(array[1]) == 5.25);
+	assert(*(double*)(array[2]) == 6.5);
+	free(array);
+}
+
+void test_asArray_does_not_populates_double_Array_and_returns_0_when_list_is_empty(){
+	double **array = (double**)malloc(sizeof(double*));
+	LinkedList list = createList();
+	assert(asArray(list, (void**)array) == 0);
+	free(array);
+}
+
+void test_asArray_populates_int_Array_with_string_Nodes_data_and_returns_number_of_elements_added_to_the_array(){
+	string a = "wx", b = "yz";
+	string **array = (string**)calloc(2,sizeof(string*));
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+
+	assert(asArray(list, (void**)array) == 2);
+	assert(array[0] == &a);
+	assert(array[1] == &b);
+
+	assert(*(string*)(array[0]) == "wx");
+	assert(*(string*)(array[1]) == "yz");
+	free(array);
+}
+
+void test_asArray_does_not_populates_string_Array_and_returns_0_when_list_is_empty(){
+	string **array = (string**)malloc(sizeof(string*));
+	LinkedList list = createList();
+
+	assert(asArray(list, (void**)array) == 0);
+	free(array);
+}

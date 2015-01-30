@@ -2,7 +2,7 @@ typedef struct node Node;
 typedef Node* node_ptr;
 typedef struct linkedList LinkedList;
 typedef LinkedList* list_ptr;
-
+typedef int(*int_void)(void*);
 typedef char* string;
 
 struct node {
@@ -27,4 +27,4 @@ void * getElementAt(LinkedList, int);
 int indexOf(LinkedList, void *);
 void * deleteElementAt(LinkedList *, int);
 int asArray(LinkedList, void **);
-LinkedList * filter(LinkedList, int (*)(void *));
+LinkedList * filter(LinkedList, int_void);
