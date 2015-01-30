@@ -100,12 +100,17 @@ void test_add_to_list_adds_given_node_to_tail_when_list_isnt_empty_and_returns_1
 	node_ptr node2 = create_node(&str2);
 	assert(list.count == 0);
 	assert(add_to_list(&list, node1) == 1);
-	// assert(list.head)
+	assert(list.head == node1);
+	assert(list.tail == node1);
+
 	assert(list.count == 1);
-	add_to_list(&list, node2);
+	add_to_list(&list, node1);
 	assert(list.count == 2);
-	assert(add_to_list(&list, node1) == 1);
+	assert(add_to_list(&list, node2) == 1);
 	assert(list.count == 3);
+
+	assert(list.head== node1);
+	assert(list.tail == node2);
 	free(node1); free(node2);
 }
 
@@ -930,6 +935,101 @@ void test_deleteElementAt_deletes_the_head_and_makes_heads_next_element_as_head_
 	assert(indexOf(list, &a) == -1);
 	assert(areEqual(*list.head, *node2)	== 1);
 	assert(areEqual(*list.tail, *node4)== 1);
-	assert((*node1).next ==  node2);
+	// assert((*node1).next ==  node2);
 	free(node1); free(node2); free(node3); free(node4);
 }
+
+void test_deleteElementAt_returns_NULL_when_negative_index_is_givwn_to_delete(){
+	double a = 12.4, b = 3.4;
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+
+	assert(areEqual(*list.head, *node1)	== 1);
+	assert(areEqual(*list.head, *node1)	== 1);
+	assert((double*)deleteElementAt(&list, -3) == NULL);
+
+	free(node1); free(node2);
+}
+
+void test_deleteElementAt_returns_NULL_when_given_index_is_greater_than_list_count_to_delete(){
+	double a = 12.4, b = 3.4;
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+
+	assert(areEqual(*list.head, *node1)	== 1);
+	assert(areEqual(*list.head, *node1)	== 1);
+	assert(list.count == 2);
+	assert((double*)deleteElementAt(&list, 3) == NULL);
+	free(node1); free(node2);
+}
+
+void test_asArray_populates_int_Array_with_int_Nodes_data_and_returns_number_of_elements_added_to_the_array(){
+	int a = 4, b = 5, c = 6;
+	int **array = (int**)malloc(sizeof(int*)*3);
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	Node *node3 = create_node(&c);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	add_to_list(&list,node3);
+
+	assert(asArray(list, (void**)array) == 3);
+	assert(array[0] == &a);
+	assert(array[1] == &b);
+	assert(array[2] == &c);
+
+	assert(*(int*)(array[0]) == 4);
+	assertEqual(*(int*)(array[1]), 5);
+	assert(*(int*)(array[2]) == 6);
+	free(array);
+}
+
+void test_asArray_does_not_populates_int_Array_and_returns_0_when_list_is_empty(){
+	int **array = (int**)malloc(sizeof(int*)*3);
+	LinkedList list = createList();
+
+	assert(asArray(list, (void**)array) == 0);
+	free(array);
+}
+
+void test_asArray_populates_int_Array_with_float_Nodes_data_and_returns_number_of_elements_added_to_the_array(){
+	float a = 4.5, b = 5.25, c = 6.5, d = 7.75;
+	float **array = (float**)malloc(sizeof(float*)*4);
+	LinkedList list = createList();
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	Node *node3 = create_node(&c);
+	Node *node4 = create_node(&d);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	add_to_list(&list,node3);
+	add_to_list(&list,node4);
+
+	assert(asArray(list, (void**)array) == 4);
+	assert(array[0] == &a);
+	assert(array[1] == &b);
+	assert(array[2] == &c);
+	assert(array[3] == &d);
+
+	assert(*(float*)(array[0]) == 4.5);
+	assert(*(float*)(array[1]) == 5.25);
+	assert(*(float*)(array[2]) == 6.5);
+	assert(*(float*)(array[3]) == 7.75);
+	free(array);
+}
+
+void test_asArray_does_not_populates_float_Array_and_returns_0_when_list_is_empty(){
+	float **array = (float**)malloc(sizeof(float*));
+	LinkedList list = createList();
+
+	assert(asArray(list, (void**)array) == 0);
+	free(array);
+}
+
