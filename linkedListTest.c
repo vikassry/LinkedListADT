@@ -87,31 +87,37 @@ void test_add_to_list_adds_given_node_to_its_head_and_tail_when_list_is_empty(){
 	assert(list.head == NULL);
 	
 	assert(add_to_list(&list, node) == 1);
-	assertEqual(areEqual(*(list.head), *node), 1);
-	assertEqual(areEqual(*(list.tail), *node), 1);
+	assert(list.head == node);
+	assert(list.tail == node);
+	assertEqual(areEqual(*list.head, *node), 1);
+	assertEqual(areEqual(*list.tail, *node), 1);
 	assert((*list.tail).next == NULL);
 	free(node);
 }
 	
 void test_add_to_list_adds_given_node_to_tail_when_list_isnt_empty_and_returns_1(){
-	string str1 = "vikas", str2 = "vikky";
+	string str1 = "vikas", str2 = "vikky"; int num = 4;
 	LinkedList list = createList();
 	node_ptr node1 = create_node(&str1);
 	node_ptr node2 = create_node(&str2);
+	node_ptr node3 = create_node(&num);
 	assert(list.count == 0);
 	assert(add_to_list(&list, node1) == 1);
 	assert(list.head == node1);
 	assert(list.tail == node1);
-
 	assert(list.count == 1);
-	add_to_list(&list, node1);
+
+	add_to_list(&list, node2);
 	assert(list.count == 2);
-	assert(add_to_list(&list, node2) == 1);
+	assert(list.head == node1);
+	assert(list.tail == node2);	
+
+	assert(add_to_list(&list, node3) == 1);
 	assert(list.count == 3);
 
 	assert(list.head== node1);
-	assert(list.tail == node2);
-	free(node1); free(node2);
+	assert(list.tail == node3);
+	free(node1); free(node2); free(node3);
 }
 
 void test_add_to_list_adds_given_node_makes_it_tail_when_list_is_not_empty_and_returns_1(){
@@ -1112,4 +1118,255 @@ void test_asArray_does_not_populates_string_Array_and_returns_0_when_list_is_emp
 
 	assert(asArray(list, (void**)array) == 0);
 	free(array);
+}
+
+int isEven(void *item){
+	return (*(int*)item % 2 == 0);
+}
+
+void test_filter_filters_the_int_list_and_returns_new_list_of_even_nodes(){
+	int a = 4, b = 5, c = 6, d = 7;
+	LinkedList list = createList();
+	list_ptr filtered_list;
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	Node *node3 = create_node(&c);
+	Node *node4 = create_node(&d);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	add_to_list(&list,node3);
+	add_to_list(&list,node4);
+
+	filtered_list = filter(list, isEven);
+	assertEqual((*filtered_list).count, 2);
+ 	assert(filtered_list->head == node1);
+	assert(filtered_list->tail == node3);
+	assert(filtered_list->head->data == &a);
+	assert(filtered_list->tail->data == &c);
+
+	free(node1); free(node2); free(node3); free(node4);
+	free(filtered_list);
+}
+
+void test_filter_returns_empty_list_with_0_count_when_no_match_is_found_in_the_int_list(){
+	int a = 3, b = 5, c = 9;
+	LinkedList list = createList();
+	list_ptr filtered_list;
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	Node *node3 = create_node(&c);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	add_to_list(&list,node3);
+
+	filtered_list = filter(list, isEven);
+	assertEqual((*filtered_list).count, 0);
+ 	assert(filtered_list->head == NULL);
+	assert(filtered_list->tail == NULL);
+
+	free(node1); free(node2); free(node3);
+	free(filtered_list);
+}
+
+
+void test_filter_returns_NULL_when_empty_list_is_passed_to_filter(){
+	LinkedList list = createList();
+	assert(filter(list, isEven) == NULL);
+}
+
+
+int isGreaterThan10(void *item){
+	return (*(float*)item > 10);
+}
+
+void test_filter_filters_the_float_list_and_returns_new_list_of_even_nodes(){
+	float a = 4.4, b = 5.33, c = 16.8;
+	LinkedList list = createList();
+	list_ptr filtered_list;
+	int_void predicate = isGreaterThan10;
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	Node *node3 = create_node(&c);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	add_to_list(&list,node3);
+	filtered_list = filter(list, predicate);
+	
+	assert((*filtered_list).count == 1);
+ 	assert(filtered_list->head == node3);
+	assert(filtered_list->tail == node3);
+	assert(filtered_list->head->data == &c);
+	assert(filtered_list->tail->data == &c);
+
+	free(node1); free(node2); free(node3);
+	free(filtered_list);
+}
+
+void test_filter__returns_empty_list_with_0_count_when_no_match_is_found_in_the_float_list(){
+	float a = 4.4, b = 5.33, c = 6.8;
+	LinkedList list = createList();
+	list_ptr filtered_list;
+	int_void predicate = isGreaterThan10;
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	Node *node3 = create_node(&c);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	add_to_list(&list,node3);
+	filtered_list = filter(list, predicate);
+	
+	assertEqual((*filtered_list).count, 0);
+ 	assert(filtered_list->head == NULL);
+	assert(filtered_list->tail == NULL);
+
+	free(node1); free(node2); free(node3);
+	free(filtered_list);
+}
+
+
+int isLessThan10(void *item){
+	return (*(double*)item < 10);
+}
+
+void test_filter_filters_the_double_list_and_returns_new_list_of_even_nodes(){
+	double a = 9.9, b = 10, c = 16.8;
+	LinkedList list = createList();
+	list_ptr filtered_list;
+	int_void predicate = isLessThan10;
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	Node *node3 = create_node(&c);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	add_to_list(&list,node3);
+	filtered_list = filter(list, predicate);
+	
+	assertEqual((*filtered_list).count, 1);
+ 	assert(filtered_list->head == node1);
+	assert(filtered_list->tail == node1);
+	assert(filtered_list->head->data == &a);
+	assert(filtered_list->tail->data == &a);
+
+	free(node1); free(node2); free(node3);
+	free(filtered_list);
+}
+
+void test_filter_returns_empty_list_with_0_count_when_no_match_is_found_in_the_double_list(){
+	double a = 14.4, b = 25.33, c = 64.8;
+	LinkedList list = createList();
+	list_ptr filtered_list;
+	int_void predicate = isLessThan10;
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	Node *node3 = create_node(&c);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	add_to_list(&list,node3);
+	filtered_list = filter(list, predicate);
+	
+	assertEqual((*filtered_list).count, 0);
+ 	assert(filtered_list->head == NULL);
+	assert(filtered_list->tail == NULL);
+
+	free(node1); free(node2); free(node3);
+	free(filtered_list);
+}
+
+int isCapital(void *item){
+	return (*(char*)item >=65 && *(char*)item<=90);
+}
+
+void test_filter_filters_the_char_list_and_returns_new_list_of_capital_nodes(){
+	char a = 'a', b = 'B', c = 'V';
+	LinkedList list = createList();
+	list_ptr filtered_list;
+	int_void predicate = isCapital;
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	Node *node3 = create_node(&c);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	add_to_list(&list,node3);
+	filtered_list = filter(list, predicate);
+	
+	assertEqual((*filtered_list).count, 2);
+ 	assert(filtered_list->head == node2);
+	assert(filtered_list->tail == node3);
+	assert(filtered_list->head->data == &b);
+	assert(filtered_list->tail->data == &c);
+
+	free(node1); free(node2); free(node3);
+	free(filtered_list);
+}
+
+void test_filter_returns_empty_list_with_0_count_when_no_match_is_found_in_the_char_list(){
+	char a = 'a', b = 'b', c = 'c';
+	LinkedList list = createList();
+	list_ptr filtered_list;
+	int_void predicate = isCapital;
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	Node *node3 = create_node(&c);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	add_to_list(&list,node3);
+	filtered_list = filter(list, predicate);
+	
+	assertEqual((*filtered_list).count, 0);
+ 	assert(filtered_list->head == NULL);
+	assert(filtered_list->tail == NULL);
+
+	free(node1); free(node2); free(node3);
+	free(filtered_list);
+}
+
+
+int isEmptyString(void *item){
+	return (strlen(*(string*)item) == 0);
+}
+
+void test_filter_filters_the_string_list_and_returns_new_list_of_empty_strings(){
+	string a = "", b = "", c = "Gdfd", d = "";
+	LinkedList list = createList();
+	list_ptr filtered_list;
+	int_void predicate = isEmptyString;
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	Node *node3 = create_node(&c);
+	Node *node4 = create_node(&d);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	add_to_list(&list,node3);
+	add_to_list(&list,node4);
+	filtered_list = filter(list, predicate);
+	
+	assertEqual((*filtered_list).count, 3);
+ 	assert(filtered_list->head == node1);
+	assert(filtered_list->tail == node4);
+	assert(filtered_list->head->data == &a);
+	assert(filtered_list->tail->data == &d);
+
+	free(node1); free(node2); free(node3); free(node4);
+	free(filtered_list);
+}
+
+void test_filter_returns_empty_list_with_0_count_when_no_match_is_found_in_the_string_list(){
+	string a = "fffffffff", b = "sda", c = "eee";
+	LinkedList list = createList();
+	list_ptr filtered_list;
+	int_void predicate = isEmptyString;
+	Node *node1 = create_node(&a);
+	Node *node2 = create_node(&b);
+	Node *node3 = create_node(&c);
+	add_to_list(&list,node1);
+	add_to_list(&list,node2);
+	add_to_list(&list,node3);
+	filtered_list = filter(list, predicate);
+	
+	assertEqual((*filtered_list).count, 0);
+ 	assert(filtered_list->head == NULL);
+	assert(filtered_list->tail == NULL);
+
+	free(node1); free(node2); free(node3);
+	free(filtered_list);
 }

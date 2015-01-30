@@ -34,8 +34,9 @@ int add_to_list(LinkedList *list, Node *item){
 	else
 		(*(*list).tail).next = item;
 	(*list).tail = item;
-	(*(*list).tail).next = NULL;
-	(*list).count++;
+	// printf("~~%p\n",list->tail->next );
+	// list->tail->next = NULL;
+	list->count+=1;
 	return 1;
 }
 
@@ -111,6 +112,12 @@ int asArray(LinkedList list , void **array){
 	return index;
 }
 
-LinkedList * filter(LinkedList list, int_void predicate){
-	return NULL;
+LinkedList *filter(LinkedList list, int_void predicate){
+	int index = 0;  node_ptr walker;
+	list_ptr new_list = calloc(1,sizeof(LinkedList));
+	if(list.head == NULL) return NULL;
+
+	for(walker = list.head; walker !=NULL; walker = walker->next)
+		(predicate(walker->data)) && add_to_list(new_list, walker);
+	return new_list;
 }
