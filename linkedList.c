@@ -7,7 +7,7 @@
 void print_list(LinkedList list){
 	int i=0; node_ptr walker;  
 	for(walker = list.head; walker !=NULL; walker = walker->next)
-		printf("Node%d %d \n",i, *(int*)walker->data ) && i++;
+		printf("Node%d %d \n", i+1, *(int*)walker->data ) && i++;
 	printf("Total Elements: %d\n",list.count);
 }
 
@@ -48,53 +48,51 @@ void traverse(LinkedList list, void (*fun)(void *data)){
 		fun((*walker).data);
 }
 
+
+Node *getNodeAt(LinkedList list, int index){
+	int idx = 0;  node_ptr walker, item;
+	for(walker = list.head; walker !=NULL; walker = (*walker).next, idx++)
+		(idx == index) && (item = walker);
+	return item;
+}
+
 void *getElementAt(LinkedList list, int index){
-	int idx = 0;  node_ptr walker;
-	for(walker = list.head; walker !=NULL; walker = (*walker).next){
-		if(idx == index)  return (*walker).data;
-		idx += 1;
-	}
-	return NULL;
+	if (index >= list.count || index < 0) 
+		return NULL;
+	return getNodeAt(list, index)->data;
 }
 
 int indexOf(LinkedList list, void *item){
 	int idx = 0;  node_ptr walker;
-	for(walker = list.head; walker !=NULL; walker = (*walker).next){
+	for(walker = list.head; walker !=NULL; walker = (*walker).next, idx++)
 		if((*walker).data == item) 	return idx;
-		idx++;
-	}
 	return -1;	
 }
 
 void *deleteElementAt(LinkedList *list, int index){
-	int idx = 0;  node_ptr walker; void *item = calloc(1,sizeof((list->head->data)));
+	int idx = 0;  node_ptr walker; Node *item = getNodeAt(*list, index);
+	if(list->count == 0 || index < 0 || index >= list->count) return NULL;
+	index == 0 && list->count == 1 && (list->tail = NULL);
 	if(index == 0){
-		walker = (*list).head;
-		(*list).head = (*walker).next;
-		(*list).count -= 1;
-		return (*walker).data;
+		list->head = list->head->next;
+		(*list).count -= 1; return item->data;
 	}
 	if(index == (*list).count-1){
-		item = (*(*list).tail).data;
+		item = list->tail;
 		for(walker = list->head; walker !=NULL; walker = walker->next){
 			if(idx == (*list).count-2){
 				(*walker).next = NULL;
 				(*list).tail = walker;
 				(*list).count -= 1;
-				return item;
+				return item->data;
 			} idx++;
 		}
 	}
-	for(walker = (*list).head; walker !=NULL; walker = (*walker).next){
-		if(idx == index-1){
-			item = (*(*walker).next).data;
-			(*walker).next = (*(*walker).next).next;
-			(*list).count -= 1;
-			return item;
-		} idx += 1;
-	}
- 	return NULL;
+	getNodeAt(*list, index-1)->next = getNodeAt(*list,index+1);
+	list->count -= 1;
+ 	return item->data;
 }
+
 
 int asArray(LinkedList list , void **array){
 	int index = 0;  node_ptr walker;
@@ -102,6 +100,7 @@ int asArray(LinkedList list , void **array){
 		(array[index] = (*walker).data) && (index += 1);
 	return index;
 }
+
 
 LinkedList *filter(LinkedList list, int_void predicate){
 	int index = 0;  node_ptr walker;
@@ -112,6 +111,7 @@ LinkedList *filter(LinkedList list, int_void predicate){
 		(predicate(walker->data)) && add_to_list(new_list, walker);
 	return new_list;
 }
+
 
 	// printf("~~%p\n",list->tail->next );
 	// list->tail->next = NULL;
